@@ -3,9 +3,14 @@ const express = require('express');
 const app = express();
 const fetch = require('node-fetch')
 
-app.get('getUser/:username', (req, res) => {
-    const name = req.params.username;
-    fetch('https://jsonplaceholder.typicode.com/users').then(res => res.json()).then(data => res.send(data))
+var obj;
+fetch('https://jsonplaceholder.typicode.com/users').then(res => res.json()).then(data => obj = data);
+
+app.get('/getUser/:username', (req, res) => {
+    
+    const userInfo = obj.find(el => el.username === req.params.username);
+    res.status(200).json(userInfo);
+    
 })
 
 
